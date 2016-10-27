@@ -35,3 +35,10 @@ example
 
     1. the xlsx files inside the package
     2. newly fetched data those not in the package, we will fetch them on the fly
+
+
+## Jupyter Notbeook
+
+Chinese Ver.
+
+[A notebook for reference](https://github.com/rainx/cn_treasury_curve/blob/master/notebooks/%E4%B8%AD%E5%80%BA%E6%95%B0%E6%8D%AE%E6%95%B4%E7%90%86.ipynb)
