@@ -16,7 +16,7 @@ def get_data():
     if you wanna cal this function multi-time intra-day, you should cache it your self
 
 
-    Data are combine with 2 part
+    Data are combined with 2 parts
     1 the xlsx files inside the package
     2 newly fetched data those not in the package, we will fetch them on the fly
     """
