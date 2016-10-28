@@ -57,8 +57,10 @@ def get_pivot_data():
 def get_zipline_format():
     pivot_data = get_pivot_data()
     all_china_bond = pd.read_csv(StringIO(pivot_data.to_csv()),
-                                 parse_dates=['日期'], usecols=('日期', '0.08', '0.25', '0.5', '1.0', '2.0', '3.0', '5.0', '7.0', '10.0', '20.0', '30.0'))
+                                 parse_dates=['日期'],
+                                 usecols=('日期', '0.08', '0.25', '0.5', '1.0', '2.0', '3.0', '5.0', '7.0', '10.0', '20.0', '30.0'))
     all_china_bond.columns =['Time Period', '1month', '3month','6month', '1year', '2year', '3year', '5year', '7year', '10year', '20year', '30year']
+    all_china_bond.set_index(['Time Period'], inplace=True)
     return all_china_bond
 
 @click.command()
