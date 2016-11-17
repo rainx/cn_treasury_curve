@@ -4,11 +4,13 @@ import requests
 from io import BytesIO, StringIO
 import os
 import click
+import re
 
 # the data we already cache in the package
 in_package_data = range(2002, 2016)
 
-DONWLOAD_URL = "http://yield.chinabond.com.cn/cbweb-mn/yc/downYearBzqx?year=%s&&wrjxCBFlag=0&&zblx=txy"
+DONWLOAD_URL = "http://yield.chinabond.com.cn/cbweb-mn/yc/downYearBzqx?year=%s&&wrjxCBFlag=0&&zblx=txy&ycDefId=%s"
+YIELD_MAIN_URL = 'http://yield.chinabond.com.cn/cbweb-mn/yield_main'
 
 def get_data():
     """
@@ -26,9 +28,16 @@ def get_data():
     # download new data
     to_downloads = range(last_in_package_data + 1, cur_year + 1)
 
+    # frist, get ycDefIds params
+    response = requests.get(YIELD_MAIN_URL)
+    matchs = re.search(r'\?ycDefIds=(.*?)\&', response.text)
+    ycdefids = matchs.group(1)
+    assert (ycdefids is not None) # 如果这里失效了,请在github上联系我
+
     fetched_data = []
     for year in to_downloads:
-        response = requests.get(DONWLOAD_URL % year)
+        print('Downloading from ' + DONWLOAD_URL % (year, ycdefids))
+        response = requests.get(DONWLOAD_URL % (year, ycdefids))
         fetched_data.append(BytesIO(response.content))
 
     # combine all data
