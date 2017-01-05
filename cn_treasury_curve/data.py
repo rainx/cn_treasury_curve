@@ -7,7 +7,7 @@ import click
 import re
 
 # the data we already cache in the package
-in_package_data = range(2002, 2016)
+in_package_data = range(2002, 2017)
 
 DONWLOAD_URL = "http://yield.chinabond.com.cn/cbweb-mn/yc/downYearBzqx?year=%s&&wrjxCBFlag=0&&zblx=txy&ycDefId=%s"
 YIELD_MAIN_URL = 'http://yield.chinabond.com.cn/cbweb-mn/yield_main'
