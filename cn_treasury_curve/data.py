@@ -47,7 +47,7 @@ def get_data():
     basedir = os.path.join(os.path.dirname(__file__), "xlsx")
 
     for i in in_package_data:
-        dfs.append(pd.read_excel(os.path.join(basedir, "%d年中债国债收益率曲线标准期限信息.xlsx" % i)))
+        dfs.append(pd.read_excel(os.path.join(basedir, "%d.xlsx" % i)))
 
     for memfile in fetched_data:
         dfs.append(pd.read_excel(memfile))
