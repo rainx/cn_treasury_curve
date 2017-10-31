@@ -32,7 +32,7 @@ def get_data():
     response = requests.get(YIELD_MAIN_URL)
     matchs = re.search(r'\?ycDefIds=(.*?)\&', response.text)
     ycdefids = matchs.group(1)
-    assert (ycdefids is not None) # 如果这里失效了,请在github上联系我
+    assert (ycdefids is not None) # please contact me on github if fails
 
     fetched_data = []
     for year in to_downloads:
@@ -61,15 +61,17 @@ def get_pivot_data():
     pivot data
     """
     df = get_data()
-    return df.pivot(index='日期', columns='标准期限(年)', values='收益率(%)')
+    df.columns = ['date','period1','period','return']
+    return df.pivot(index='date', columns='period', values='return')
 
 def get_zipline_format():
     pivot_data = get_pivot_data()
-    all_china_bond = pd.read_csv(StringIO(pivot_data.to_csv()),
-                                 parse_dates=['日期'],
-                                 usecols=('日期', '0.08', '0.25', '0.5', '1.0', '2.0', '3.0', '5.0', '7.0', '10.0', '20.0', '30.0'))
-    all_china_bond.columns =['Time Period', '1month', '3month','6month', '1year', '2year', '3year', '5year', '7year', '10year', '20year', '30year']
-    all_china_bond.set_index(['Time Period'], inplace=True)
+    pivot_data.columns.name = None
+    pivot_data = pivot_data.reset_index()
+    all_china_bond = pivot_data[[0.08, 0.25, 0.5, 1.0, 2.0, 3.0, 5.0, 7.0, 10.0, 20.0, 30.0]]
+
+    all_china_bond.columns =['1month', '3month','6month', '1year', '2year', '3year', '5year', '7year', '10year', '20year', '30year']
+    all_china_bond.index = pd.to_datetime(pivot_data['date'])
     return all_china_bond
 
 @click.command()
