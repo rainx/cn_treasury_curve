@@ -88,10 +88,10 @@ def save_zipline_file(fileformat, path_to_save = None):
         raise Exception("filetype must in ('zipline', 'all') ")
 
     click.echo("saving data")
-    if (fileformat == 'zipline'):
-        get_zipline_format().to_csv(path_to_save, ignore_index=True)
+    if fileformat == 'zipline':
+        get_zipline_format().to_csv(path_to_save)
     else:
-        get_pivot_data().to_csv(path_to_save, ignore_index=True)
+        get_pivot_data().to_csv(path_to_save)
     click.echo("done")
 
 if __name__ == '__main__':
